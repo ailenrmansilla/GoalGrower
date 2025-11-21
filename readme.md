@@ -1,4 +1,4 @@
-# Savings Tracker
+# Goal Grower Savings Tracker
 
 ## Summary
 
@@ -30,32 +30,36 @@ When a goal is viewed, transactions will show.
 
 Each transaction will have a unique ID, name/description, amount, and date.
 
+## Running the Application for Developers
+
+1. Prerequisites
+
+   - Download .NET SDK 9.0 [https://dotnet.microsoft.com/download]
+   - Download Git [https://git-scm.com/]
+   - (Optional) Visual Studio 2022 or VS Code
+     -Visual Studio: Workload → ASP.NET and web development
+     -VS Code: Install the C# Dev Kit extension
+
+2. Clone the Repository
+
+   - Open a terminal or Powershell and run:
+     - git clone https://github.com/ashesmsmith/GoalGrower
+     - cd GoalGrower
+
+3. Restore Dependencies
+
+   - Download required NuGet packages
+     - Run: dotnet restore
+
+4. Build the Application
+
+   - Run: dotnet build
+
+5. Run the Application
+   - Run: dotnet run
+
 ## Participants
 
 - Ashley Smith
 - Ailen Mansilla
 - Phillip Mubbala
-
-## Running the Application for Developers
-
-1. Prerequisites
-    - Download .NET SDK 9.0 [https://dotnet.microsoft.com/download]
-    - Download Git [https://git-scm.com/]
-    - (Optional) Visual Studio 2022 or VS Code
-        -Visual Studio: Workload → ASP.NET and web development
-        -VS Code: Install the C# Dev Kit extension
-
-2. Clone the Repository
-    - Open a terminal or Powershell and run:
-        - git clone https://github.com/ashesmsmith/GoalGrower
-        - cd GoalGrower
-
-3. Restore Dependencies
-    - Download required NuGet packages. Run:
-        - dotnet restore
-
-4. Build the Application
-    - Run: dotnet build
-
-5. Run the Application
-    - dotnet run
