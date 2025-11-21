@@ -1,0 +1,78 @@
+#########################
+# .NET build artifacts
+#########################
+bin/
+obj/
+out/
+**/bin/
+**/obj/
+
+#########################
+# ASP.NET / Blazor outputs
+#########################
+# Generated Blazor assets
+wwwroot/_framework/
+wwwroot/_content/
+wwwroot/css/generated/
+wwwroot/js/generated/
+
+# Published site
+publish/
+dist/
+
+#########################
+# User / environment files
+#########################
+*.user
+*.userosscache
+*.suo
+*.swp
+*.tmp
+*.temp
+*.bak
+*.orig
+*.cache
+
+# Dotnet user secrets (do NOT commit)
+secrets.json
+
+#########################
+# Logs
+#########################
+*.log
+logs/
+
+#########################
+# IDEs
+#########################
+
+# Visual Studio
+.vs/
+
+# Rider
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+#########################
+# OS Junk
+#########################
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+#########################
+# NuGe
