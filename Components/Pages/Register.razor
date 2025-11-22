@@ -1,10 +1,80 @@
 @page "/register"
 @layout NoNavLayout
 
+@using GoalGrower.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+@inject NavigationManager Navigation
+
 <PageTitle>Goal Grower Register</PageTitle>
 
-<h1>Register Page</h1>
-<h2>Coming Soon!</h2>
+<h1>Register</h1>
 
-<NavLink href="/">Go to Home</NavLink>
-<p>Future Home Redirect</p>
+<EditForm FormName="register" Model="registerModel" OnValidSubmit="HandleRegister">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name:</label>
+        <InputText @bind-Value="registerModel.Name" />
+    </div>
+
+    <div>
+        <label>Last Name:</label>
+        <InputText @bind-Value="registerModel.LastName" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="registerModel.Email" type="email" />
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <InputText @bind-Value="registerModel.Password" type="password" />
+    </div>
+
+    <div>
+        <label>Confirm Password:</label>
+        <InputText @bind-Value="registerModel.ConfirmPassword" type="password" />
+    </div>
+
+    <button type="submit">Register</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color:red">@errorMessage</p>
+}
+
+@code {
+    private RegisterModel registerModel = new RegisterModel();
+    private string errorMessage = string.Empty;
+
+    private async Task HandleRegister()
+    {
+        errorMessage = string.Empty;
+
+        var user = new User
+        {
+            UserName = registerModel.Email,
+            Email = registerModel.Email,
+            Name = registerModel.Name,
+            LastName = registerModel.LastName,
+            BankAmount = 0
+        };
+
+        var result = await UserManager.CreateAsync(user, registerModel.Password);
+
+        if (result.Succeeded)
+        {
+            await SignInManager.SignInAsync(user, isPersistent: false);
+            Navigation.NavigateTo("/dashboard");
+        }
+        else
+        {
+            errorMessage = string.Join(" | ", result.Errors.Select(e => e.Description));
+        }
+    }
+}
