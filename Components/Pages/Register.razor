@@ -1,6 +1,5 @@
 @page "/register"
 @layout NoNavLayout
-
 @using GoalGrower.Models
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
@@ -9,36 +8,19 @@
 
 <PageTitle>Goal Grower Register</PageTitle>
 
+<img src="images\logo.png" alt="Goal Grower Logo" width="500" height="500" class="logo" />
 <h1>Register</h1>
 
-<EditForm FormName="register" Model="registerModel" OnValidSubmit="HandleRegister">
+<EditForm FormName="RegisterForm" Model="registerModel" OnValidSubmit="HandleRegister">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div>
-        <label>Name:</label>
-        <InputText @bind-Value="registerModel.Name" />
-    </div>
-
-    <div>
-        <label>Last Name:</label>
-        <InputText @bind-Value="registerModel.LastName" />
-    </div>
-
-    <div>
-        <label>Email:</label>
-        <InputText @bind-Value="registerModel.Email" type="email" />
-    </div>
-
-    <div>
-        <label>Password:</label>
-        <InputText @bind-Value="registerModel.Password" type="password" />
-    </div>
-
-    <div>
-        <label>Confirm Password:</label>
-        <InputText @bind-Value="registerModel.ConfirmPassword" type="password" />
-    </div>
+    <InputText id="Name" @bind-Value="registerModel.Name" placeholder="First Name" />
+    <InputText id="LastName" @bind-Value="registerModel.LastName" placeholder="Last Name" />
+    <InputText id="Email" @bind-Value="registerModel.Email" type="email" placeholder="Email Address" />
+    <InputText id="Password" @bind-Value="registerModel.Password" type="password" placeholder="Password" />
+    <InputText id="ConfirmPassword" @bind-Value="registerModel.ConfirmPassword" type="password"
+        placeholder="Confirm Password" />
 
     <button type="submit">Register</button>
 </EditForm>
@@ -49,7 +31,7 @@
 }
 
 @code {
-    private RegisterModel registerModel = new RegisterModel();
+    private RegisterModel registerModel { get; set; } = new RegisterModel();
     private string errorMessage = string.Empty;
 
     private async Task HandleRegister()

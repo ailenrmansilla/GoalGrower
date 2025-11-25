@@ -37,7 +37,7 @@ form {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-    width: fit-content;
+    width: 100%;
     margin: 2rem auto;
     padding: 1.5rem 5rem;
     border-radius: 10px;
@@ -70,6 +70,23 @@ button {
     cursor: pointer;
 }
 
+.remember-me {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.remember-me label {
+    font-size: 1rem;;
+}
+
+.remember-me input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
 .active-goals-container {
     margin: 1rem auto;
     padding: 1rem;
@@ -86,12 +103,20 @@ li {
     padding: .75rem 1.5rem;
     background-color: var(--accent-color-1-light);
     border-radius: 10px;
-    width: fit-content;
+    width: 100%;
 }
 
 .validation-message {
+    background-color: var(--primary-color);
     color: red;
     font-size: 1rem;
     text-align: left;
-    margin-top: -0.5rem;
+    margin: .5rem 0;
+    padding: 0;
+}
+
+.logo {
+    margin: 1rem auto;
+    width: 50%;
+    height: auto;
 }
