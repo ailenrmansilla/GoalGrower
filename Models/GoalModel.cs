@@ -24,7 +24,7 @@ namespace GoalGrower.Models
         public string UserId { get; set; } = string.Empty;
 
         // Navigation property
-        public UserModel? User { get; set; }
+        public User? User { get; set; }
 
         public List<TransactionModel>? Transactions { get; set; }
     }

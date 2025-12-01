@@ -24,7 +24,7 @@ namespace GoalGrower.Models
 
         [Required]
         public string UserId { get; set; } = string.Empty;  // FK pointing to IdentityUser.Id
-        public UserModel User { get; set; } = null!;             // Navigation property
+        public User User { get; set; } = null!;             // Navigation property
 
         [ForeignKey("Goal")]
         public int? GoalId { get; set; }
