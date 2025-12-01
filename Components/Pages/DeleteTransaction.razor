@@ -1,7 +1,46 @@
 @page "/deletetransaction"
+@layout MainLayout
 
-<PageTitle>Goal Grower Delete Transaction Page</PageTitle>
+@using GoalGrower.Models
+@rendermode InteractiveServer
 
-<h1>Delete Transaction Page</h1>
-<h2>Coming Soon!</h2>
-<p>Will require a unique ID to view</p>
+<PageTitle>Goal Grower - Delete Transaction Page</PageTitle>
+
+<h1>Delete Transaction</h1>
+
+<div class="details-container">
+    <p>Date:</p>
+    <p>@transaction.TransactionDate</p>
+
+    <p>Type:</p>
+    <p>@transaction.TransactionType</p>
+
+    <p>Amount:</p>
+    <p>@transaction.TransactionAmount</p>
+
+    <p>Description</p>
+    <p>@transaction.TransactionDescription</p>
+</div>
+
+<button type="submit" @onclick="HandleDeleteTransaction">Confirm Delete</button>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color:red">@errorMessage</p>
+}
+
+@code {
+    [Parameter]
+    public int TransactionId { get; set; }
+
+    private TransactionModel transaction = new TransactionModel();
+    private string errorMessage = string.Empty;
+
+    private async Task HandleDeleteTransaction()
+    {
+        errorMessage = string.Empty;
+
+        // Logic to delete the transaction goes here
+        // After deleting the transaction navigate back to goal details
+    }
+}
