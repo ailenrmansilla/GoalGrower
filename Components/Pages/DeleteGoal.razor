@@ -15,7 +15,7 @@
     <p>Complete By Date: @goal.CompletionDate</p>
 </div>
 
-<button type="submit" @onclick="HandleDeleteGoal">Confirm Delete</button>
+<button type="submit" @onclick="HandleDeleteGoal" class="delete-btn">Confirm Delete</button>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {

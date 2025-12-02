@@ -15,7 +15,7 @@
     <p>Description: @transaction.TransactionDescription</p>
 </div>
 
-<button type="submit" @onclick="HandleDeleteTransaction">Confirm Delete</button>
+<button type="submit" @onclick="HandleDeleteTransaction" class="delete-btn">Confirm Delete</button>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
