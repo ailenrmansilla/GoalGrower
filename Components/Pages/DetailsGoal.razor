@@ -1,16 +1,28 @@
 @page "/goaldetails/{GoalId:int}"
 @layout MainLayout
+@rendermode InteractiveServer
 
 @using GoalGrower.Data
 @using GoalGrower.Models
 @using Microsoft.EntityFrameworkCore
+@inject NavigationManager Navigation
+@inject AppDbContext Db
 
-@inject AppDbContext _context
+<PageTitle>Goal Details Page</PageTitle>
 
-<PageTitle>Goal Grower - Goal Details Page</PageTitle>
 
-<h1>@goal.GoalName Details</h1>
+@if (goal == null)
+{
+    <p>Loading goal...</p>
+}
+else
+    {
+    <h1>@goal.GoalName Details</h1>
 
+    <div class="details-container">
+        <p>Description: @goal.GoalDescription</p>
+        <p>Goal Amount: $@goal.GoalAmount.ToString("F2")</p>
+        <p>Complete By Date: @goal.CompletionDate</p>
 <div class="details-container">
     <div class="detail">
         <p>Description:</p>
@@ -25,6 +37,15 @@
         <p>@goal.CompletionDate</p>
     </div>
 
+        <div class="icon-container">
+            <a class="edit-goal-icon" href="/editgoal/@GoalId">
+                <img src="/images/edit-icon.png" alt="edit icon" class="icon" />
+            </a>
+            <a class="delete-goal-icon" href="/deletegoal/@GoalId">
+                <img src="/images/delete-icon.png" alt="delete icon" class="icon" />
+            </a>
+        </div>
+    </div>
     <div class="icon-container">
         <a href="/editgoal/@goal.GoalId">
             <img src="/images/edit-icon.png" alt="edit icon" class="icon" />
@@ -35,42 +56,37 @@
     </div>
 </div>
 
-<h2>Transactions</h2>
-<button type="submit" @onclick="AddTransaction">Add Transaction</button>
+    <h2>Transactions</h2>
+    <a href="/addtransaction/@GoalId">Add Transaction</a>
+    <div class="transactions-container">
+        @if (transactions != null && transactions.Any())
+        {
+            <ul>
+                @foreach (var t in transactions)
+                {
+                    <li>@t.TransactionDate.ToShortDateString() | @t.TransactionType | @t.TransactionAmount
+                        <a class="edit-transaction-icon" href="/edittransaction/@t.TransactionId">
+                            <img src="/images/edit-icon.png" alt="edit icon" class="icon" />
+                        </a>
+                        <a class="delete-transaction-icon" href="/deletetransaction/@t.TransactionId">
+                            <img src="/images/delete-icon.png" alt="delete icon" class="icon" />
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Nothing here yet!</p>
+        }
+    </div>
+    
 
-<div class="transactions-container">
-    @if (transactions != null && transactions.Any())
-    {
-        <ul class="transaction-list">
-            @foreach (var transaction in transactions)
-            {
-                <li>
-                    <span>
-                        @transaction.TransactionDate.ToString("yyyy-MM-dd") |
-                        @transaction.TransactionType |
-                        @transaction.TransactionAmount
-                    </span>
-                    <div>
-                        <a href="edittransaction/@transaction.TransactionId">
-                            <img src="/images/edit-icon.png" alt="edit icon" class="sm-icon" />
-                        </a>
-                        <a href="/deletetransaction/@transaction.TransactionId">
-                            <img src="/images/delete-icon.png" alt="delete icon" class="sm-icon" />
-                        </a>
-                    </div>
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>Nothing here yet!</p>
-    }
-</div>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
     <p style="color:red">@errorMessage</p>
+}
 }
 
 @code {
@@ -83,12 +99,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         try
         {
-            goal = await _context.Goals
-            .Include(g => g.Transactions)
-            .FirstOrDefaultAsync(g => g.GoalId == GoalId);
+            goal = await Db.Goals
+                .Where(g => g.GoalId == GoalId)
+                .FirstOrDefaultAsync();
 
             if (goal == null)
             {
@@ -96,16 +111,14 @@
                 return;
             }
 
-            transactions = goal.Transactions ?? new List<TransactionModel>();
+            transactions = await Db.Transactions
+                .Where(t => t.GoalId == GoalId)
+                .OrderByDescending(t => t.TransactionDate)
+                .ToListAsync();
         }
         catch (Exception ex)
         {
-            errorMessage = "Error loading goal: " + ex.Message;
+            errorMessage = $"Error loading goal details: {ex.Message}";
         }
-    }
-
-    private void AddTransaction()
-    {
-        // Navigate, open modal, etc.
     }
 }

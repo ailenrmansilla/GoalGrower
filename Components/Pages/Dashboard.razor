@@ -12,17 +12,18 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject UserManager<UserModel> UserManager
 @inject AppDbContext Db
+@inject NavigationManager Nav
 
 @attribute [Authorize]
 
-<PageTitle>Goal Grower - Dashboard Page</PageTitle>
+<PageTitle>Dashboard</PageTitle>
 
 
 <AuthorizeView>
     <Authorized>
         <h1>Welcome @currentUser?.Name!</h1>
 
-        <button type="submit" class="add-goal-btn" @onclick="AddGoal">Add New Goal</button>
+        <a class="add-goal-btn" href="/addgoal">Add New Goal</a>
 
         <h2>Active Goals</h2>
         <div class="active-goals-container">
@@ -67,10 +68,5 @@
             .Where(g => g.UserId == currentUser.Id)
             .ToListAsync();
         }
-    }
-
-    private void AddGoal()
-    {
-        // Navigate, open modal, etc.
     }
 }

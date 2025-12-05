@@ -4,28 +4,53 @@
 @using GoalGrower.Data
 @using GoalGrower.Models
 @using Microsoft.EntityFrameworkCore
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject AppDbContext Db
 
-@inject AppDbContext _context
+<PageTitle>Edit Goal Details Page</PageTitle>
 
-<PageTitle>Goal Grower - Edit Goal Details Page</PageTitle>
-
-<h1>Edit Goal Details</h1>
-
-<EditForm FormName="EditGoalForm" Model="goalModel" OnValidSubmit="HandleEditGoal">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <InputText id="GoalName" @bind-Value="goalModel.GoalName" placeholder="Goal Name" />
-    <InputText id="GoalDescription" @bind-Value="goalModel.GoalDescription" placeholder="Description" />
-    <InputNumber id="GoalAmount" @bind-Value="goalModel.GoalAmount" />
-    <InputDate id="CompletionDate" @bind-Value="goalModel.CompletionDate" />
-
-    <button type="submit">Save Changes</button>
-</EditForm>
-
-@if (!string.IsNullOrEmpty(errorMessage))
+@if (goalModel == null)
 {
-    <p style="color:red">@errorMessage</p>
+    <p>Loading goal...</p>
+}
+else
+        {
+    <h1>Edit Goal Details</h1>
+
+    <EditForm FormName="EditGoalForm" Model="goalModel" OnValidSubmit="HandleEditGoal">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class>
+            <label>Goal Name</label>
+            <InputText class="form-input" @bind-Value="goalModel.GoalName" />
+        </div>
+
+        <div class>
+            <label>Description</label>
+            <InputText class="form-input" @bind-Value="goalModel.GoalDescription" />
+        </div>
+
+        <div class>
+            <label>Goal Amount</label>
+            <InputNumber class="form-input" @bind-Value="goalModel.GoalAmount" />
+        </div>
+
+        <div>
+            <label>Completion Date</label>
+            <InputDate class="form-input" @bind-Value="goalModel.CompletionDate" />
+        </div>
+        <div class="form-button-options">
+            <button type="submit">Save Changes</button>
+            <a class="cancel-button" href="/goaldetails/@GoalId">Cancel</a>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p style="color:red">@errorMessage</p>
+    }
 }
 
 @code {
@@ -36,30 +61,32 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         try
         {
-            goalModel = await _context.Goals
-            .Include(g => g.Transactions)
-            .FirstOrDefaultAsync(g => g.GoalId == GoalId);
+            goalModel = await Db.Goals.Include(g => g.Transactions).FirstOrDefaultAsync(g => g.GoalId == GoalId);
 
             if (goalModel == null)
             {
                 errorMessage = "Goal not found.";
-                return;
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "Error loading goal: " + ex.Message;
+            errorMessage = $"Error loading goal: {ex.Message}";
         }
     }
-
     private async Task HandleEditGoal()
     {
-        errorMessage = string.Empty;
+        try
+        {
+            Db.Goals.Update(goalModel!);
+            await Db.SaveChangesAsync();
 
-        // Logic to update the goal goes here
-        // After updating the goal navigate back to dashboard
+            Navigation.NavigateTo($"/goaldetails/{GoalId}");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error saving goal: {ex.Message}";
+        }
     }
 }

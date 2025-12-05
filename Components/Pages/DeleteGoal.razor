@@ -1,16 +1,29 @@
 @page "/deletegoal/{GoalId:int}"
 @layout MainLayout
+@rendermode InteractiveServer
 
 @using GoalGrower.Data
 @using GoalGrower.Models
+@using System.Reflection.Metadata
 @using Microsoft.EntityFrameworkCore
-
+@inject NavigationManager Navigation
 @inject AppDbContext _context
 
-<PageTitle>Goal Grower - Delete Goal Page</PageTitle>
+<PageTitle>Delete Goal Page</PageTitle>
 
-<h1>Delete @goal.GoalName Goal</h1>
+@if (goal == null)
+{
+    <p>Loading goal...</p>
+}
+else
+    {
+    <h1>Delete @goal.GoalName Goal</h1>
 
+    <div class="details-container">
+        <p>Description: @goal.GoalDescription</p>
+        <p>Goal Amount: $@goal.GoalAmount</p>
+        <p>Complete By Date: @goal.CompletionDate</p>
+    </div>
 <div class="details-container">
     <div class="detail">
         <p>Description:</p>
@@ -28,11 +41,16 @@
     </div>
 </div>
 
-<button type="submit" @onclick="HandleDeleteGoal" class="delete-btn">Confirm Delete</button>
+    
+    <div class="form-button-options">
+        <button type="submit" @onclick="HandleDeleteGoal" class="delete-btn">Confirm Delete</button>
+        <a class="cancel-button" href="/goaldetails/@GoalId">Cancel</a>
+    </div>
 
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <p style="color:red">@errorMessage</p>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p style="color:red">@errorMessage</p>
+    }
 }
 
 @code {
@@ -48,8 +66,7 @@
         try
         {
             goal = await _context.Goals
-            .Include(g => g.Transactions)
-            .FirstOrDefaultAsync(g => g.GoalId == GoalId);
+            .Where(g => g.GoalId == GoalId).FirstOrDefaultAsync(g => g.GoalId == GoalId);
 
             if (goal == null)
             {
@@ -63,11 +80,25 @@
         }
     }
 
-    private async Task HandleDeleteGoal()
+     private async Task HandleDeleteGoal()
     {
-        errorMessage = string.Empty;
+        if (goal == null)
+        {
+            errorMessage = "Goal not loaded.";
+            return;
+        }
 
-        // Logic to delete the goal goes here
-        // After deleting the goal navigate back to dashboard
+        try
+        {
+            _context.Goals.Remove(goal);
+            await _context.SaveChangesAsync();
+
+            // Navigate back to dashboard or goals list
+            Navigation.NavigateTo("/dashboard");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error deleting goal: {ex.Message}";
+        }
     }
 }

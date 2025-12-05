@@ -29,8 +29,9 @@ builder.Services.AddCascadingAuthenticationState();
 // Add support for Razor Pages, Controllers, and Blazor Server
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
 var app = builder.Build();
 
