@@ -15,24 +15,24 @@
 <div class="details-container">
     <div class="detail">
         <p>Goal:</p>
-        <p>@transaction.Goal.GoalName</p>
+        <p>@transaction?.Goal?.GoalName</p>
     </div>
 
     <div class="detail">
         <p>Date:</p>
-        <p>@transaction.TransactionDate</p>
+        <p>@transaction?.TransactionDate</p>
     </div>
     <div class="detail">
         <p>Type:</p>
-        <p>@transaction.TransactionType</p>
+        <p>@transaction?.TransactionType</p>
     </div>
     <div class="detail">
         <p>Amount:</p>
-        <p>@transaction.TransactionAmount</p>
+        <p>@transaction?.TransactionAmount</p>
     </div>
     <div class="detail">
         <p>Description:</p>
-        <p>@transaction.TransactionDescription</p>
+        <p>@transaction?.TransactionDescription</p>
     </div>
 </div>
 
