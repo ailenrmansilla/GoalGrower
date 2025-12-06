@@ -1,3 +1,4 @@
+/* Global Styles */
 :root {
     --primary-color: #FBF8E1;
     --secondary-color: #001404;
@@ -32,13 +33,9 @@ nav a {
     margin: 0 .5rem;
 }
 
-footer {
-    margin-top: 3rem;
-}
-
 h1 {
     font-family: var(--primary-font);
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: normal;
     color: var(--accent-color-1-dark);
 }
@@ -47,6 +44,24 @@ h2 {
     margin: 1.5rem auto 0;
 }
 
+footer {
+    margin-top: 4rem;
+}
+
+.logo {
+    margin: 1rem auto;
+    width: 50%;
+}
+
+.validation-message {
+    background-color: var(--primary-color);
+    color: red;
+    font-size: 1rem;
+    text-align: left;
+    margin: .5rem 0;
+}
+
+/* Form Styles */
 form {
     display: flex;
     flex-direction: column;
@@ -61,26 +76,26 @@ form {
 label {
     font-size: 1.25rem;
     font-weight: 600;
-    align-items: flex-start;
-}
-
-.radio-inline {
-    display: flex;
-    font-weight: normal;
-    align-items: center;
-    gap: 5px;
 }
 
 input {
     background-color: var(--primary-color);
     font-size: 1.15rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.75rem;
     padding: .5rem;
     width: 100%;
     border: none;
     border-bottom: 1px solid var(--secondary-color);
 }
 
+.radio-inline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+}
+
+/* Button Styles */
 button, .a-btn {
     background-color: var(--accent-color-2-light);
     background-image: linear-gradient(var(--accent-color-1-light), var(--accent-color-2-light));
@@ -88,7 +103,6 @@ button, .a-btn {
     font-size: 1.25rem;
     font-weight: bold;
     width: 100%;
-    align-self: center;
     margin: 2rem auto;
     padding: .75rem 1.5rem;
     border: none;
@@ -115,16 +129,36 @@ button, .a-btn {
     justify-content: center;
 }
 
+/* Goals & Transactions Styles */
 .active-goals-container {
     margin: 1rem auto;
     padding: 1rem;
     border-top: 1px solid var(--accent-color-1-dark);
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.goal-card {
+    display: block;
+    color: var(--secondary-color);
+    text-decoration: none;
+    line-height: 1.5rem;
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.goal-card:nth-child(odd), .transaction-card:nth-child(odd) {
+    background-color: var(--accent-color-1-light);
+}
+
+.goal-card:nth-child(even), .transaction-card:nth-child(even) {
+    background-color: var(--accent-color-2-light);
+}
+
+.goal-card:hover, .transaction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .transaction-list li {
@@ -141,120 +175,21 @@ ul {
     height: 20px;
 }
 
-.active-goal {
-    margin: 1rem auto;
-    background-color: var(--accent-color-1-light);
-    border-radius: 10px;
-    width: 90%;
-    height: auto;
-}
-
-.active-goal a {
-    display: block;
-    color: #001404;
-    font-size: 1.25rem;
-    font-weight: 600;
-    text-decoration: none;
-    width: 100%;
-    padding: 1rem;
-}
-
-.validation-message {
-    background-color: var(--primary-color);
-    color: red;
-    font-size: 1rem;
-    text-align: left;
-    margin: .5rem 0;
-    padding: 0;
-}
-
-.logo {
-    margin: 1rem auto;
-    width: 50%;
-    height: auto;
-}
-
-.details-container {
-    background-color: var(--accent-color-2-light);
-    font-size: 1.15rem;
-    margin: 1rem auto;
-    padding: 1rem;
-    border: 2px solid var(--accent-color-1-dark);
-    border-radius: 10px;
-}
-
-.detail {
-    margin: 1rem 0;
-}
-
-.detail p:nth-child(1) {
-    margin-bottom: .5rem;
-    font-weight: 600;
-}
-
-.icon {
-    display: inline-block;
-    margin: .25rem;
-    padding: .75rem;
-    width: 60px;
-    height: auto;
-}
-
-.sm-icon {
-    margin: .25rem;
-    padding: .75rem;
-    width: 40px;
-    height: auto;
-}
-
-.goal-card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    margin: 1rem auto;
-    padding: 1rem;
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.goal-card:nth-child(odd) {
-    background-color: var(--accent-color-1-light);
-}
-
-.goal-card:nth-child(even) {
-    background-color: var(--accent-color-2-light);
-}
-
-.goal-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
 .transaction-cards {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .transaction-card {
-    display: grid;
-    grid-template-columns: 120px 140px 1fr auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    background: #f5f5f5;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
     font-size: 0.95rem;
-
     transition: background-color 0.15s ease;
-}
-
-.transaction-card:hover {
-    background-color: #eaeaea;
 }
 
 .transaction-card span {
@@ -266,9 +201,41 @@ ul {
     text-align: right;
 }
 
-.actions {
-    display: flex;
-    gap: 0.5rem;
+/* Details Styles */
+.details-container {
+    background-color: var(--accent-color-2-light);
+    font-size: 1.15rem;
+    margin: 1rem auto;
+    padding: 1.5rem;
+    border: 2px solid var(--accent-color-1-dark);
+    border-radius: 10px;
+}
+
+.detail {
+    margin-bottom: 1.75rem;
+}
+
+.detail p:nth-child(1) {
+    margin-bottom: .5rem;
+    font-weight: 600;
+}
+
+/* Icons Styles */
+.icon, .sm-icon {
+    display: inline-block;
+    margin: .25rem;
+}
+
+.icon {
+    padding: .75rem;
+    width: 60px;
+    height: auto;
+}
+
+.sm-icon {
+    padding: .75rem;
+    width: 40px;
+    height: auto;
 }
 
 .sm-icon:hover {
