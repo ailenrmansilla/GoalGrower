@@ -26,6 +26,7 @@ else if (transaction == null)
 }
 else
 {
+    @* Content loaded from database and uses TransactionModel *@
     <EditForm FormName="EditTransactionForm" Model="transaction" OnValidSubmit="HandleEditTransaction">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -57,11 +58,17 @@ else
 }
 
 @code {
-    [Parameter] public int TransactionId { get; set; }
+    // Parameter for TransactionId from route
+    [Parameter]
+    public int TransactionId { get; set; }
 
+    // For storing the transaction being edited
     private TransactionModel? transaction;
+
+    // For storing error messages
     private string errorMessage = string.Empty;
 
+    // OnInitializedAsync to load transaction details
     protected override async Task OnInitializedAsync()
     {
         try
@@ -90,6 +97,7 @@ else
         }
     }
 
+    // Handler for form submission to save edited transaction
     private async Task HandleEditTransaction()
     {
         try

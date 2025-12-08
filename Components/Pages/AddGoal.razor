@@ -17,6 +17,8 @@
 
 <h1>Add New Goal</h1>
 
+@* Add New Goal Form *@
+@* Uses bind to connect the inputs to the GoalModel *@
 <EditForm FormName="AddGoalForm" Model="goalModel" OnValidSubmit="HandleAddGoal">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -43,19 +45,27 @@
     </div>
 </EditForm>
 
+@* Display if errors *@
 @if (!string.IsNullOrEmpty(errorMessage))
 {
     <p style="color:red">@errorMessage</p>
 }
 
 @code {
+    // Get AuthenticationState via CascadingParameter
     [CascadingParameter]
     private Task<AuthenticationState> AuthStateTask { get; set; } = default!;
+
+    // GoalModel instance to bind to the form
     private GoalModel goalModel { get; set; } = new GoalModel()
     {
         CompletionDate = DateTime.Today.AddDays(1) // default to tomorrow
     };
+
+    // For displaying error messages
     private string errorMessage = string.Empty;
+
+    // OnInitializedAsync to set the UserId on the goalModel
     protected override async Task OnInitializedAsync()
     {
         // Set UserId early to satisfy the [Required] attribute for validation
@@ -73,6 +83,9 @@
             errorMessage = "Authentication failed. User not found.";
         }
     }
+
+    // Handle form submission
+    // Adds the new goal to the database
     private async Task HandleAddGoal()
     {
         Console.WriteLine("HandleAddGoal called");

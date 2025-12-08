@@ -16,12 +16,15 @@
 
 <PageTitle>Goal Grower - Dashboard</PageTitle>
 
+@* User must be signed in to view*@
 <AuthorizeView>
     <Authorized>
         <h1>Welcome @currentUser?.Name!</h1>
 
+        @* Button for adding a new goal *@
         <a class="a-btn" href="/addgoal">Add New Goal</a>
 
+        @* Active Goals Displayed*@
         <h2>Active Goals</h2>
         <div class="active-goals-container">
             @if (goals is null)
@@ -51,9 +54,13 @@
 </AuthorizeView>
 
 @code {
+    // For storing current user
     private UserModel? currentUser;
+
+    // For storing user's goals
     private List<GoalModel>? goals;
 
+    // OnInitializedAsync to load user and their goals
     protected override async Task OnInitializedAsync()
     {
         // Get ClaimsPrincipal

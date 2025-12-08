@@ -26,6 +26,7 @@ else if (transaction == null)
 }
 else
 {
+    @* Content loaded from database and uses TransactionModel *@
     <div class="details-container">
         <div class="detail">
             <p>Goal:</p>
@@ -56,11 +57,16 @@ else
 }
 
 @code {
+    // TransactionId parameter from route
     [Parameter] public int TransactionId { get; set; }
 
+    // For storing the transaction to be deleted
     private TransactionModel? transaction;
+
+    // For displaying error messages
     private string errorMessage = string.Empty;
 
+    // OnInitializedAsync to load the transaction details
     protected override async Task OnInitializedAsync()
     {
         try
@@ -89,6 +95,7 @@ else
         }
     }
 
+    // HandleDeleteTransaction to delete the transaction and navigate back to goal details
     private async Task HandleDeleteTransaction()
     {
         if (transaction == null) return;

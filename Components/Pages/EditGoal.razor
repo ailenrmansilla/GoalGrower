@@ -25,6 +25,7 @@ else if (goal == null)
 }
 else
 {
+    @* Content loaded from database and uses GoalModel *@
     <h1>Edit Goal Details</h1>
 
     <EditForm Model="goal" OnValidSubmit="HandleEditGoal">
@@ -59,18 +60,21 @@ else
 }
 
 @code {
-    [Parameter] public int GoalId { get; set; }
+    // GoalId parameter from route
+    [Parameter]
+    public int GoalId { get; set; }
 
+    // For storing the goal to be edited
     private GoalModel? goal;
+
+    // For displaying error messages
     private string errorMessage = string.Empty;
 
+    // OnInitializedAsync to load goal details
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // ------------------------
-            // 🔐 Get logged-in user
-            // ------------------------
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
@@ -82,9 +86,6 @@ else
 
             var userId = UserManager.GetUserId(user);
 
-            // ------------------------
-            // 🔐 Load ONLY a goal owned by this user
-            // ------------------------
             goal = await Db.Goals
             .AsTracking()
             .FirstOrDefaultAsync(g => g.GoalId == GoalId && g.UserId == userId);
@@ -100,6 +101,7 @@ else
         }
     }
 
+    // HandleEditGoal to save changes
     private async Task HandleEditGoal()
     {
         try

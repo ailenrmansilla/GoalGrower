@@ -21,6 +21,7 @@
 }
 else
 {
+    @* Content loaded from database and uses GoalModel *@
     <h1>Goal Details</h1>
     <h2>@goal.GoalName</h2>
 
@@ -63,18 +64,16 @@ else
         <div class="transaction-cards">
             @foreach (var t in transactions)
             {
-                <div class="transaction-card"
-                    style="display:flex; justify-content:space-between; align-items:center; cursor:pointer">
-                    <!-- Clickable transaction details -->
+                <div class="transaction-card">
                     <a class="transaction-info" href="/transactiondetails/@t.TransactionId"
                         style="flex:1; text-decoration:none; color:inherit; display:flex; gap:1rem;">
                         <span class="date">@t.TransactionDate.ToShortDateString()</span>
                         <span class="type">@t.TransactionType</span>
                         <span class="amount">@t.TransactionAmount.ToString("C")</span>
+                        <span class="desc">@t.TransactionDescription</span>
                     </a>
 
-                    <!-- Edit/Delete icons -->
-                    <span class="actions" style="display:flex; gap:0.5rem;">
+                    <span class="actions">
                         <a href="/edittransaction/@t.TransactionId">
                             <img src="/images/edit-icon.png" class="icon sm-icon" />
                         </a>
@@ -94,13 +93,20 @@ else
 }
 
 @code {
+    // GoalId parameter from route
     [Parameter]
     public int GoalId { get; set; }
 
+    // For storing the goal details
     private GoalModel? goal;
+
+    // For storing the goal's transactions
     private List<TransactionModel> transactions = new();
+
+    // For displaying error messages
     private string? errorMessage;
 
+    // OnInitializedAsync to load the goal details
     protected override async Task OnInitializedAsync()
     {
         try
