@@ -23,6 +23,8 @@
         <div class="error-message">@errorMessage</div>
     }
 
+    @* Add Transaction Form *@
+    @* Uses bind to connect the inputs to the TransactionModel *@
     <EditForm FormName="AddTransactionForm" Model="transactionModel" OnValidSubmit="HandleAddTransaction">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -60,19 +62,24 @@
 </div>
 
 @code {
+    // Get GoalId from route parameter
     [Parameter]
     public int GoalId { get; set; }
 
+    // Get AuthenticationState via CascadingParameter
     [CascadingParameter]
     private Task<AuthenticationState> AuthStateTask { get; set; } = default!;
 
+    // TransactionModel instance to bind to the form
     private TransactionModel transactionModel { get; set; } = new TransactionModel()
     {
         TransactionDate = DateTime.Today
     };
 
+    // For displaying error messages
     private string errorMessage = string.Empty;
 
+    // OnInitializedAsync to set UserId in transactionModel
     protected override async Task OnInitializedAsync()
     {
         // Initialize UserId early so validation passes
@@ -89,6 +96,8 @@
         transactionModel.TransactionDate = DateTime.Today; // default to today
     }
 
+    // Handle form submission
+    // Adds the transaction to the database and navigates back to goal details
     private async Task HandleAddTransaction()
     {
         errorMessage = string.Empty;

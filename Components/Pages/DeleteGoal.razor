@@ -24,6 +24,7 @@ else if (goal == null)
 }
 else
 {
+    @* Content loaded from database and uses GoalModel *@
     <h1>Delete Goal</h1>
     <h2>@goal.GoalName</h2>
 
@@ -51,12 +52,17 @@ else
 }
 
 @code {
+    // GoalId parameter from route
     [Parameter]
     public int GoalId { get; set; }
 
+    // For storing the goal to be deleted
     private GoalModel? goal;
+
+    // For displaying error messages
     private string errorMessage = string.Empty;
 
+    // OnInitializedAsync to load the goal details
     protected override async Task OnInitializedAsync()
     {
         try
@@ -89,6 +95,7 @@ else
         }
     }
 
+    // HandleDeleteGoal to delete the goal from the database
     private async Task HandleDeleteGoal()
     {
         if (goal == null)

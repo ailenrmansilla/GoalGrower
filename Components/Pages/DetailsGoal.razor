@@ -21,6 +21,7 @@
 }
 else
 {
+    @* Content loaded from database and uses GoalModel *@
     <h1>Goal Details</h1>
     <h2>@goal.GoalName</h2>
 
@@ -92,13 +93,20 @@ else
 }
 
 @code {
+    // GoalId parameter from route
     [Parameter]
     public int GoalId { get; set; }
 
+    // For storing the goal details
     private GoalModel? goal;
+
+    // For storing the goal's transactions
     private List<TransactionModel> transactions = new();
+
+    // For displaying error messages
     private string? errorMessage;
 
+    // OnInitializedAsync to load the goal details
     protected override async Task OnInitializedAsync()
     {
         try

@@ -24,6 +24,7 @@ else if (transaction == null)
 }
 else
 {
+    @* Content loaded from database and uses TransactionModel *@
     <h1>Transaction Details</h1>
 
     <div class="details-container">
@@ -64,12 +65,17 @@ else
 }
 
 @code {
+    // TransactionId parameter from route
     [Parameter]
     public int TransactionId { get; set; }
 
+    // For storing the transaction to be displayed
     private TransactionModel? transaction;
+
+    // For displaying error messages
     private string errorMessage = string.Empty;
 
+    // OnInitializedAsync to load the transaction details
     protected override async Task OnInitializedAsync()
     {
         try
