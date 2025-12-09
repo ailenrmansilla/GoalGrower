@@ -59,7 +59,7 @@ Each transaction will have a unique ID, name/description, amount, and date.
 
    - Run: dotnet build
 
-6. Run the Application
+6. Run the Application locally
    - Run: dotnet run
 
 ## Participants
